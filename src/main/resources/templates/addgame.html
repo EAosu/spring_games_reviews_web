@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Add Game</title>
+</head>
+<body>
+<!-- Insert the contents of the navbar.html -->
+<div th:insert="~{navbar.html}"></div>
+
+<h3>Add New Game</h3>
+<form action="/games/add-game" method="post">
+  <input type="text" name="title" placeholder="Title" required>
+  <input type="text" name="genre" placeholder="Genre" required>
+  <input type="checkbox" name="multiplayer"> Multiplayer
+  <input type="checkbox" name="singleplayer"> Singleplayer
+  <button type="submit">Add Game</button>
+</form>
+</body>
+</html>
