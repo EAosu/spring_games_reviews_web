@@ -1,46 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/AddGameForm.css}" />
   <title>Search</title>
 </head>
 <body>
-<!-- Insert the contents of the navbar.html -->
+
 <div th:insert="~{navbar.html}"></div>
 
 <!-- Search games -->
-<h1>Advanced Search</h1>
-<form action="/games/search" method="get">
-  <label for="title">Title:</label>
-  <input type="text" id="title" name="title">
+<div class="container card mb-5 mt-5">
+  <div class="row">
+    <div class="col">
+      <h1>Advanced Search</h1>
+      <form action="/games/search" method="get">
+        <div class="row">
+          <div class="col-md-6">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label for="genre">Genre:</label>
+            <select id="genre" name="genre" class="form-select" multiple>
+              <option value="Action">Action</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Role-playing">Role-playing</option>
+              <option value="Strategy">Strategy</option>
+              <option value="Sports">Sports</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="form-check">
+              <input type="checkbox" id="multiplayer" name="multiplayer" class="form-check-input">
+              <label for="multiplayer" class="form-check-label">Multiplayer</label>
+            </div>
+            <div class="form-check">
+              <input type="checkbox" id="singleplayer" name="singleplayer" class="form-check-input">
+              <label for="singleplayer" class="form-check-label">Singleplayer</label>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+  </div>
 
-  <label for="genre">Genre:</label>
-  <input type="text" id="genre" name="genre">
+  <!-- Search results -->
+  <div class="row mt-5">
+    <div class="col">
+      <h1>Search Results</h1>
+      <ul>
+        <li th:each="game : ${searchResults}">
+          <h3 th:text="${game.title}"></h3>
+          <form action="/reviews/add-review" method="post">
+            <input type="hidden" name="gameId" th:value="${game.id}">
+            <textarea name="comment" rows="3" cols="30" placeholder="Write a review..." class="form-control"></textarea>
+            <button type="submit" class="btn">Add Review</button>
+          </form>
+          <ul>
+            <!-- <li th:each="review : ${game.reviews}">
+              <p th:text="${review.comment}"></p>
+            </li> -->
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-  <label for="multiplayer">Multiplayer:</label>
-  <input type="checkbox" id="multiplayer" name="multiplayer">
-
-  <label for="singleplayer">Singleplayer:</label>
-  <input type="checkbox" id="singleplayer" name="singleplayer">
-
-  <button type="submit">Search</button>
-</form>
-
-<!-- Search results -->
-<h1>Search Results</h1>
-<ul>
-  <li th:each="game : ${searchResults}">
-    <h3 th:text="${game.title}"></h3>
-    <form action="/reviews/add-review" method="post">
-      <input type="hidden" name="gameId" th:value="${game.id}">
-      <textarea name="comment" rows="3" cols="30" placeholder="Write a review..."></textarea>
-      <button type="submit">Add Review</button>
-    </form>
-    <ul>
-<!--      <li th:each="review : ${game.reviews}">-->
-<!--        <p th:text="${review.comment}"></p>-->
-<!--      </li>-->
-    </ul>
-  </li>
-</ul>
+<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 </body>
 </html>
