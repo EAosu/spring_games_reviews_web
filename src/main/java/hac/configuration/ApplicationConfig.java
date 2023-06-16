@@ -39,14 +39,17 @@ public class ApplicationConfig  {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
                 .cors(withDefaults())
                 .csrf(withDefaults())
 
                 .authorizeHttpRequests((requests) -> requests
+                                .requestMatchers("/").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasRole("USER")
-                        .requestMatchers("../static/**", "/").permitAll()
+                                .requestMatchers("/login").permitAll()
+//                        .requestMatchers("../static/**", "/").permitAll()
                 )
                 .formLogin((form) -> form
                                 .loginPage("/login")
@@ -69,9 +72,10 @@ public class ApplicationConfig  {
 
 
     // instead of defining open path in the method above you can do it here:
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().requestMatchers("/favicon.ico");
-//    }
-
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        // Ignore resources for any check
+        System.out.println("======>> Add  web Customizer");
+        return (web) -> web.ignoring().requestMatchers("/webjars/**","/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**");
+    }
 }
