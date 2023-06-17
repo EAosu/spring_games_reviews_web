@@ -16,25 +16,24 @@ public class Review {
 
     private String comment;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    private String username;
 
+    private LocalDateTime time;
     @ManyToOne
     @JoinColumn(name = "game_id", referencedColumnName = "id")
     private Game game;
 
-    // Constructors, getters, and setters
-
     // Constructors
-    public Review(Long gameId, int rating, String comment, LocalDateTime now) {
-    }
-
-    public Review(int rating, String comment, User user, Game game) {
+    public Review(Long gameId, int rating, String comment, LocalDateTime time, String username) {
+        this.id = gameId;
         this.rating = rating;
         this.comment = comment;
-        this.user = user;
-        this.game = game;
+        this.time = time;
+        this.username = username;
+    }
+
+    public Review() {
+
     }
 
     // Getters and setters
@@ -62,12 +61,12 @@ public class Review {
         this.comment = comment;
     }
 
-    public User getUser() {
-        return user;
+    public String getUser() {
+        return username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(String username) {
+        this.username = username;
     }
 
     public Game getGame() {

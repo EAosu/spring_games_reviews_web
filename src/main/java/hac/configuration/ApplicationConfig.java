@@ -28,7 +28,6 @@ public class ApplicationConfig  {
                 .roles("ADMIN")
                 .build());
 
-
         return manager;
     }
 
@@ -44,10 +43,9 @@ public class ApplicationConfig  {
                 .cors(withDefaults())
                 .csrf(withDefaults())
                 .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/", "/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/games/user/**").hasRole("USER")
-                                .requestMatchers("/login").permitAll()
+                        .requestMatchers("/games/user/**", "/reviews/user/**").hasRole("USER")
 //                        .requestMatchers("../static/**", "/").permitAll()
                 )
                 .formLogin((form) -> form

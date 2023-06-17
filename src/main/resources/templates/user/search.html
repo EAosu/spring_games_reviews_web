@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col">
       <h1>Advanced Search</h1>
-      <form action="/games/search" method="get">
+      <form th:action="@{/games/user/search}" method="post">
         <div class="row">
           <div class="col-md-6">
             <label for="title">Title:</label>
@@ -55,7 +55,7 @@
       <ul>
         <li th:each="game : ${searchResults}">
           <h3 th:text="${game.title}"></h3>
-          <form action="/reviews/add-review" method="post">
+          <form th:action="@{/reviews/user/add-review}" method="post">
             <input type="hidden" name="gameId" th:value="${game.id}">
             <textarea name="comment" rows="3" cols="30" placeholder="Write a review..." class="form-control"></textarea>
             <button type="submit" class="btn">Add Review</button>

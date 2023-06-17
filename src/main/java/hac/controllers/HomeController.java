@@ -19,6 +19,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
+        System.out.println("In get home");
         List<Review> allReviews = reviewController.getAllReviews();
         List<Game> allGames = gameController.getAllGames();
 

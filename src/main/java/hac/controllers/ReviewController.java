@@ -5,10 +5,13 @@ import hac.repo.GameRepository;
 import hac.repo.Review;
 import hac.repo.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -33,16 +36,17 @@ public class ReviewController {
         return reviewRepository.findAll();
     }
 
-    @PostMapping("/add-review")
-    public String addReview(@RequestParam("gameId") Long gameId,
-                            @RequestParam("rating") int rating,
+    @PostMapping("/user/add-review")
+    public String addReview(@RequestParam(value = "gameId") Long gameId,
+                            @RequestParam(value = "rating", required = false, defaultValue = "1") Integer rating,
                             @RequestParam("comment") String comment) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
         Optional<Game> gameOptional = gameRepository.findById(gameId);
         if (gameOptional.isPresent()) {
-            Game game = gameOptional.get();
-            Review review = new Review(gameId, rating, comment, LocalDateTime.now());
+            Review review = new Review(gameId, rating, comment, LocalDateTime.now(), username);
             reviewRepository.save(review);
         }
-        return "redirect:/reviews/all";
+        return "addedreview";
     }
 }

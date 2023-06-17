@@ -11,9 +11,9 @@
 
 <div class="container card mb-5 mt-5">
   <div class="row">
-    <div class="col">
+    <div class="col" >
       <h3>Add New Game</h3>
-      <form action="/games/add-game" method="post">
+      <form th:action="@{/games/user/add-game}" method="post">
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input type="text" id="title" name="title" class="form-control" placeholder="Title" required>

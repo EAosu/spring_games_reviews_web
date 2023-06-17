@@ -1,0 +1,41 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.thank-you-message {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+}
+
+.thank-you-title {
+    color: #28a745;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.thank-you-text {
+    margin-bottom: 30px;
+}
+
+.thank-you-quote {
+    font-style: italic;
+    color: #6c757d;
+}
+
+.thank-you-highlight {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.thank-you-img {
+    max-width: 300px;
+    margin-top: 30px;
+}

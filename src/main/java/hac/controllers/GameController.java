@@ -50,12 +50,12 @@ public class GameController {
 
         model.addAttribute("searchResults", searchResults);
 
-        return "search";
+        return "user/search";
     }
 
     @GetMapping("/user/search")
     public String getSearchForm() {
-        return "search";
+        return "user/search";
     }
 
     @PostMapping("/user/add-game")
@@ -65,11 +65,9 @@ public class GameController {
                           @RequestParam(value = "singleplayer", defaultValue = "false") Boolean singleplayer) {
         Game game = new Game(title, genre, multiplayer, singleplayer);
         gameRepository.save(game);
-        return "redirect:/games/search";
+        return "user/search";
     }
 
     @GetMapping("/user/add-game")
-    public String getGameForm() {
-        return "addgame";
-    }
+    public String getGameForm() {return "user/addgame";}
 }
