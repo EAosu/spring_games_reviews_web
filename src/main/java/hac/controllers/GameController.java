@@ -27,7 +27,7 @@ public class GameController {
         return gameRepository.findAll();
     }
 
-    @PostMapping("/search")
+    @PostMapping("/user/search")
     public String getSearchResults(@RequestParam(value = "title", required = false) String title,
                                    @RequestParam(value = "genre", required = false) String genre,
                                    @RequestParam(value = "multiplayer", required = false) Boolean multiplayer,
@@ -53,12 +53,12 @@ public class GameController {
         return "search";
     }
 
-    @GetMapping("/search")
+    @GetMapping("/user/search")
     public String getSearchForm() {
         return "search";
     }
 
-    @PostMapping("/add-game")
+    @PostMapping("/user/add-game")
     public String postGame(@RequestParam("title") String title,
                           @RequestParam("genre") String genre,
                           @RequestParam(value = "multiplayer", defaultValue = "false") Boolean multiplayer,
@@ -68,7 +68,7 @@ public class GameController {
         return "redirect:/games/search";
     }
 
-    @GetMapping("/add-game")
+    @GetMapping("/user/add-game")
     public String getGameForm() {
         return "addgame";
     }

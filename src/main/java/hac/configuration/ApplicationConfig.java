@@ -43,18 +43,17 @@ public class ApplicationConfig  {
         http
                 .cors(withDefaults())
                 .csrf(withDefaults())
-
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/games/user/**").hasRole("USER")
                                 .requestMatchers("/login").permitAll()
 //                        .requestMatchers("../static/**", "/").permitAll()
                 )
                 .formLogin((form) -> form
                                 .loginPage("/login")
 //                                .loginProcessingUrl("/login")
-//                                .defaultSuccessUrl("/", true)
+                                .defaultSuccessUrl("/", true)
 //                                .failureUrl("/")
                                 .permitAll()
                 )
