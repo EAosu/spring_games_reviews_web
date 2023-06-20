@@ -50,7 +50,7 @@ public class ApplicationConfig  {
                 )
                 .formLogin((form) -> form
                                 .loginPage("/login")
-//                                .loginProcessingUrl("/login")
+                                .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/", true)
 //                                .failureUrl("/")
                                 .permitAll()

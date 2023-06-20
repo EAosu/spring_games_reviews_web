@@ -38,7 +38,7 @@ public class ReviewController {
 
     @PostMapping("/user/add-review")
     public String addReview(@RequestParam(value = "gameId") Long gameId,
-                            @RequestParam(value = "rating", required = false, defaultValue = "1") Integer rating,
+                            @RequestParam(value = "rating") Integer rating,
                             @RequestParam("comment") String comment) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();

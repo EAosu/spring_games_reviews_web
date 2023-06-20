@@ -8,24 +8,29 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/games/user/add-game">Add Game</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/games/user/search">Search</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/games/user/all">My Games</a>
-        </li>
-      </ul>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item active" sec:authorize="!isAuthenticated()">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav mr-auto" sec:authorize="hasRole('ROLE_USER')">
+          <li class="nav-item">
+            <a class="nav-link" href="/games/user/add-game">Add Game</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/games/user/search">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/games/user/all">My Games</a>
+          </li>
+        </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item" style="margin-left: auto;">
           <span th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
-            Logged user: <span sec:authentication="name">?</span> |
+            Name: <span sec:authentication="name">?</span> |
             Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span> |
             <!--/* When using CSRF this needs to be a POST */-->
             <form th:action="@{/logout}" method="post" style="display:inline;">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" />
   <link rel="stylesheet" th:href="@{/css/AddGameForm.css}" />
   <title>Search</title>
 </head>
@@ -54,24 +54,58 @@
       <h1>Search Results</h1>
       <ul>
         <li th:each="game : ${searchResults}">
-          <h3 th:text="${game.title}"></h3>
-          <form th:action="@{/reviews/user/add-review}" method="post">
-            <input type="hidden" name="gameId" th:value="${game.id}">
-            <textarea name="comment" rows="3" cols="30" placeholder="Write a review..." class="form-control"></textarea>
-            <button type="submit" class="btn">Add Review</button>
-          </form>
-          <ul>
-            <!-- <li th:each="review : ${game.reviews}">
-              <p th:text="${review.comment}"></p>
-            </li> -->
-          </ul>
+          <div class="row">
+            <!-- Add review -->
+            <form th:action="@{/reviews/user/add-review}" method="post">
+              <div class="col-12">
+                <h3 th:text="${game.title}"></h3>
+                <input type="hidden" name="gameId" th:value="${game.id}">
+              </div>
+
+              <div class="row">
+                <div class="col-2" style="align-self: center;">
+                  <label for="rating"><strong>Rating:</strong></label>
+                </div>
+
+              <div class="col-10">
+                <div class="rating" id="rating">
+                  <input type="radio" id="star1" name="rating" value="1" />
+                  <label for="star1"></label>
+                  <input type="radio" id="star2" name="rating" value="2" />
+                  <label for="star2"></label>
+                  <input type="radio" id="star3" name="rating" value="3" />
+                  <label for="star3"></label>
+                  <input type="radio" id="star4" name="rating" value="4" />
+                  <label for="star4"></label>
+                  <input type="radio" id="star5" name="rating" value="5" />
+                  <label for="star5"></label>
+                </div>
+              </div>
+              </div>
+              <div class="col-12">
+                <textarea name="comment" rows="3" cols="30" placeholder="Write a review..." class="form-control"></textarea>
+                <button type="submit" class="btn">Add Review</button>
+              </div>
+            </form>
+
+            <div class="col-12">
+              <ul>
+                <!-- <li th:each="review : ${game.reviews}">
+                  <p th:text="${review.comment}"></p>
+                </li> -->
+              </ul>
+            </div>
+          </div>
         </li>
+
       </ul>
     </div>
   </div>
+
 </div>
 
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+
 </body>
 </html>
