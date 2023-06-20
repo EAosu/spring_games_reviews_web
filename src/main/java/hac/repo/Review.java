@@ -24,8 +24,7 @@ public class Review {
     private Game game;
 
     // Constructors
-    public Review(Long gameId, int rating, String comment, LocalDateTime time, String username) {
-        this.id = gameId;
+    public Review(int rating, String comment, LocalDateTime time, String username) {
         this.rating = rating;
         this.comment = comment;
         this.time = time;
@@ -61,11 +60,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public String getUser() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUser(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 

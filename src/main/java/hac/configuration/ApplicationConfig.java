@@ -46,6 +46,8 @@ public class ApplicationConfig  {
                                 .requestMatchers("/", "/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/games/user/**", "/reviews/user/**").hasRole("USER")
+                                .requestMatchers("user/addedreview.html").authenticated()
+                                .anyRequest().authenticated()
 //                        .requestMatchers("../static/**", "/").permitAll()
                 )
                 .formLogin((form) -> form

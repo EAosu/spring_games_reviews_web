@@ -32,6 +32,14 @@ public class Game {
         this.singleplayer = singleplayer;
     }
 
+    public void addReview(Review review) {
+        review.setGame(this);
+        reviews.add(review);
+        for(int i = 0; i < reviews.size(); i++) {
+            System.out.println(reviews.get(i));
+        }
+    }
+
     // Getters and setters
     public Long getId() {
         return id;
@@ -73,6 +81,7 @@ public class Game {
         this.singleplayer = singleplayer;
     }
 
-    // Other getters and setters, if any
-
+    public List<Review> getReviews() {
+        return reviews;
+    }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Game Reviews</title>
+</head>
+<body>
+<h1>Game Reviews</h1>
+<div>
+  <h2 th:text="${game.title}"></h2>
+  <p th:text="'Genre: ' + ${game.genre}"></p>
+  <p th:text="'Multiplayer: ' + ${game.multiplayer}"></p>
+  <p th:text="'Singleplayer: ' + ${game.singleplayer}"></p>
+</div>
+<div>
+  <h3>Reviews</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>User</th>
+      <th>Rating</th>
+      <th>Comment</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="review : ${reviews}">
+      <td th:text="${review.username}"></td>
+      <td th:text="${review.rating + '/5'}"></td>
+      <td th:text="${review.comment}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
