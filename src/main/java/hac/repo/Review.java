@@ -1,7 +1,9 @@
 package hac.repo;
 
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,13 +14,18 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(value = 1, message = "Rating must be at least 1")
+    @Max(value = 5, message = "Rating cannot exceed 5")
     private int rating;
 
+    @NotBlank(message = "Comment is required")
     private String comment;
 
+    @NotBlank(message = "Username is required")
     private String username;
 
     private LocalDateTime time;
+
     @ManyToOne
     @JoinColumn(name = "game_id", referencedColumnName = "id")
     private Game game;

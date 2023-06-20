@@ -2,9 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" />
+  <link rel="stylesheet" th:href="@{/css/general.css}" />
+  <link rel="stylesheet" th:href="@{/css/form.css}" />
   <title>Game Reviews</title>
 </head>
 <body>
+
 <h1>Game Reviews</h1>
 <div>
   <h2 th:text="${game.title}"></h2>
@@ -31,5 +35,7 @@
     </tbody>
   </table>
 </div>
+<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 </body>
 </html>

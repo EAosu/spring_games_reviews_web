@@ -58,10 +58,10 @@ public class ApplicationConfig  {
                                 .permitAll()
                 )
                 .logout((logout) -> logout.permitAll())
-//                .exceptionHandling(
-//                        (exceptionHandling) -> exceptionHandling
-//                                .accessDeniedPage("/403")
-//                )
+                .exceptionHandling(
+                        (exceptionHandling) -> exceptionHandling
+                                .accessDeniedPage("/403")
+                )
 
         ;
 
