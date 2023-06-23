@@ -102,7 +102,53 @@ public class ReviewController {
         List<Review> userReviews = reviewRepository.findAllByUsername(username);
         model.addAttribute("userReviews", userReviews);
 
-        return "/user/reviews";
+        return "user/reviews";
+    }
+    @GetMapping("/user/edit/{id}")
+    public String editReview(@PathVariable("id") Long id, Model model) {
+        System.out.println("In edit rev");
+        // Retrieve the review by ID and add it to the model
+        Optional<Review> review = reviewRepository.findById(id);
+        model.addAttribute("review", review.orElse(null));
+
+        // Add any additional necessary data to the model
+
+        return "user/editreview";
+    }
+
+
+    @PostMapping("/user/edit")
+    public String editReview(@ModelAttribute("review") Review review, Model model) {
+        // Retrieve the existing review from the database
+        Optional<Review> existingReviewOptional = reviewRepository.findById(review.getId());
+        if (existingReviewOptional.isPresent()) {
+            Review existingReview = existingReviewOptional.get();
+
+            // Update the review with the new data
+            existingReview.setRating(review.getRating());
+            existingReview.setComment(review.getComment());
+
+            // Save the updated review in the database
+            reviewRepository.save(existingReview);
+
+            return "redirect:/reviews/user/all";
+        }
+
+        model.addAttribute("message", "Review not found");
+        return "/user/errorpage";
+    }
+
+    @PostMapping("/user/delete/{id}")
+    public String deleteReview(@PathVariable Long id, Model model) {
+        // Delete the review by ID
+        Optional<Review> optionalReview = reviewRepository.findById(id);
+        if(optionalReview.isPresent()){
+            Review review = optionalReview.get();
+            reviewRepository.delete(review);
+            return "redirect:/reviews/user/all";
+        }
+        model.addAttribute("message", "An error");
+        return "/user/errorpage";
     }
 
     public ReviewRepository getReviewRepository() {
