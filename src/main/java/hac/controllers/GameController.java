@@ -2,10 +2,14 @@ package hac.controllers;
 
 import hac.repo.Game;
 import hac.repo.GameRepository;
+import hac.repo.Review;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -26,6 +30,8 @@ public class GameController {
     public List<Game> getAllGames() {
         return gameRepository.findAll();
     }
+
+
 
     @PostMapping("/user/search")
     public String getSearchResults(@RequestParam(value = "title", required = false) String title,
@@ -59,15 +65,24 @@ public class GameController {
     }
 
     @PostMapping("/user/add-game")
-    public String postGame(@RequestParam("title") String title,
-                          @RequestParam("genre") String genre,
-                          @RequestParam(value = "multiplayer", defaultValue = "false") Boolean multiplayer,
-                          @RequestParam(value = "singleplayer", defaultValue = "false") Boolean singleplayer) {
-        Game game = new Game(title, genre, multiplayer, singleplayer);
+    public String postGame(@Valid @ModelAttribute("game") Game game,
+                           BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        if (!game.isValidSelection()) {
+            result.rejectValue("multiplayer", "game.selection.invalid",
+                    "Please select either Multiplayer or Singleplayer");
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getAllErrors());
+            return "errorpage";
+        }
         gameRepository.save(game);
-        return "user/search";
+        redirectAttributes.addFlashAttribute("message","Game added successfully");
+        return "redirect:/";
+//        return "/user/search";
     }
+
 
     @GetMapping("/user/add-game")
     public String getGameForm() {return "user/addgame";}
+    public GameRepository getGameRepo() {return gameRepository;}
 }

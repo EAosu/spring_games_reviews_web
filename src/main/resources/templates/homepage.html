@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+
   <title>Home</title>
 </head>
 <body>
@@ -9,29 +11,105 @@
 <div th:insert="~{navbar.html}"></div>
 
 <div class="container-fluid">
+
   <div class="row">
     <div class="col">
-      <h1>Top Games</h1>
-      <ol>
-        <li th:each="game : ${allGames}" th:text="${game.title}"></li>
-      </ol>
+      <div class="card text-center">
+        <div class="card-header">
+          <h1>Top Games</h1>
+        </div>
+        <div class="card-body">
+          <div id="game-slideshow" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <th:block th:each="game, iteration : ${topGames}">
+                <div class="carousel-item" th:classappend="${iteration.first ? 'active' : ''}">
+                  <div class="game-item">
+                    <h3 th:text="${game.title}"></h3>
+                    <p> <strong>Average Score:</strong> <span th:text="${game.averageScore}"></span></p>
+                    <p class="card-text"><strong>Genre:</strong> <span th:text="${game.genre}"></span></p>
+                    <p class="card-text"><strong>Multiplayer:</strong> <span th:text="${game.multiplayer} ? 'Yes' : 'No'"></span></p>
+                    <p class="card-text"><strong>Singleplayer:</strong> <span th:text="${game.singleplayer} ? 'Yes' : 'No'"></span></p>
+                  </div>
+                </div>
+              </th:block>
+            </div>
+            <div style="padding: 10px">
+            <a class="btn btn-danger" href="#game-slideshow" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="false"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="btn btn-danger" href="#game-slideshow" role="button" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="false"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-<!--  <div class="row mt-5">-->
-<!--    <div class="col">-->
-<!--      <h1>Latest Reviews</h1>-->
-<!--      <ul>-->
-<!--        <li th:each="review : ${allReviews}">-->
-<!--          <h3 th:text="${review.game.title}"></h3>-->
-<!--          <p th:text="${review.comment}"></p>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--  </div>-->
+
+
+
+  <div class="alert alert-success" role="alert" th:if="${message}">
+    <span th:text="${message}"></span>
+    <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+    <script th:inline="javascript">
+      setTimeout(function() {
+        /* Remove the alert after 5 seconds */
+        document.querySelector('.alert').remove();
+      }, 5000); // 5000 milliseconds = 5 seconds
+    </script>
+  </div>
+
+
+  <div class="row" style="padding-top: 30px">
+    <div class="col">
+      <div class="card text-center">
+        <div class="card-header">
+          <h1>Latest Reviews</h1>
+        </div>
+        <div class="card-body">
+      <div id="review-slideshow" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <th:block th:each="review, iteration : ${latestReviews}">
+            <div class="carousel-item" th:classappend="${iteration.first ? 'active' : ''}">
+                  <h3 class="card-title" th:text="${review.game.title}"></h3>
+                  <p class="card-text"><strong>Rating:</strong> <span th:text="${review.rating}"></span></p>
+                  <p class="card-text"><strong>Review:</strong> <span th:text="${review.comment}"></span></p>
+                  <p class="card-text"><strong>Reviewed by:</strong> <span th:text="${review.username}"></span></p>
+                  <p class="card-text">
+                    <strong>Reviewed at:</strong>
+                    <span th:text="${#temporals.format(review.time, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                  </p>
+                </div>
+          </th:block>
+        </div>
+      <div  style="padding: 10px">
+        <a class="btn btn-primary" href="#review-slideshow" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="btn btn-primary" href="#review-slideshow" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </a>
+      </div>
+      </div>
+
+        </div>
+    </div>
+  </div>
+
+
+
+
+
 </div>
 
-<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

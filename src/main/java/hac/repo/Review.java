@@ -54,6 +54,8 @@ public class Review {
     public int getRating() {
         return rating;
     }
+    public LocalDateTime getTime() {return time;}
+    public void setTime(LocalDateTime time) {this.time = time;}
 
     public void setRating(int rating) {
         this.rating = rating;

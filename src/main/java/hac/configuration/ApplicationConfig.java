@@ -43,10 +43,11 @@ public class ApplicationConfig  {
                 .cors(withDefaults())
                 .csrf(withDefaults())
                 .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/", "/login").permitAll()
+                                .requestMatchers("/", "/login", "/error").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/games/user/**", "/reviews/user/**").hasRole("USER")
                                 .requestMatchers("user/addedreview.html").authenticated()
+                                .requestMatchers("user/search.html").authenticated()
                                 .anyRequest().authenticated()
 //                        .requestMatchers("../static/**", "/").permitAll()
                 )

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -56,6 +57,11 @@ public class ReviewController {
         return "user/addreview";
     }
 
+    @GetMapping("/user/review-added")
+    public String showReviewAddedPage() {
+        return "user/addedreview";
+    }
+
     @PostMapping("/user/add-review")
     public String postReview(@Valid @ModelAttribute("review") Review review,
                              @RequestParam(value="gameId") Long gameId,
@@ -76,22 +82,30 @@ public class ReviewController {
             System.out.println(hasReviewed);
             if (!hasReviewed) {
                 game.addReview(review);
+                review.setTime(LocalDateTime.now());
                 reviewRepository.save(review);
                 gameRepository.save(game);
                 return "redirect:/reviews/user/review-added";
             } else {
                 model.addAttribute("errorMessage","You have already reviewed this game.");
-                 return "errorpage";
+                return "errorpage";
             }
         }
-
         return "redirect:/reviews/user/review-added";
     }
 
+    @GetMapping("/user/all")
+    public String getUserReviews(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
 
+        List<Review> userReviews = reviewRepository.findAllByUsername(username);
+        model.addAttribute("userReviews", userReviews);
 
-    @GetMapping("/user/review-added")
-    public String showReviewAddedPage() {
-        return "user/addedreview";
+        return "/user/reviews";
+    }
+
+    public ReviewRepository getReviewRepository() {
+        return reviewRepository;
     }
 }

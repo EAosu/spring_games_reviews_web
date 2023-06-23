@@ -11,6 +11,7 @@
 <div class="container card mt-5">
     <h1>Add Review</h1>
     <h3 th:text="${title}"></h3>
+<!--    This form sends a Review object to ReviewController -->
     <form th:action="@{/reviews/user/add-review}" method="post">
         <input type="hidden" name="gameId" th:value="${gameId}">
         <input type="hidden" name="username" th:value="${#authentication.name}">
@@ -38,7 +39,6 @@
 
 
 </div>
-<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 </body>
 </html>

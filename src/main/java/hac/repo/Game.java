@@ -3,10 +3,6 @@ package hac.repo;
 import hac.repo.Review;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
-import jakarta.persistence.*;
-
 
 import java.util.List;
 
@@ -27,15 +23,16 @@ public class Game {
     @NotBlank(message = "Genre is required")
     private String genre;
 
-    @NotNull(message = "Multiplayer flag is required")
     private Boolean multiplayer;
 
-    @NotNull(message = "Singleplayer flag is required")
     private Boolean singleplayer;
+
+    @Transient
+    private Double averageScore;
+
 
     // Constructors, getters, and setters
 
-    // Constructors
     public Game() {
     }
 
@@ -49,7 +46,7 @@ public class Game {
     public void addReview(Review review) {
         review.setGame(this);
         reviews.add(review);
-        for(int i = 0; i < reviews.size(); i++) {
+        for (int i = 0; i < reviews.size(); i++) {
             System.out.println(reviews.get(i));
         }
     }
@@ -100,8 +97,18 @@ public class Game {
     public Boolean getSingleplayer() {
         return singleplayer;
     }
+    public Double getAverageScore() {
+        return averageScore;
+    }
 
+    public void setAverageScore(Double averageScore) {
+        this.averageScore = averageScore;
+    }
     public void setSingleplayer(Boolean singleplayer) {
         this.singleplayer = singleplayer;
+    }
+
+    public boolean isValidSelection() {
+        return (!(multiplayer == null && singleplayer == null));
     }
 }

@@ -18,10 +18,32 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
-        List<Game> allGames = gameController.getAllGames();
-        model.addAttribute("allGames", allGames);
+    public String getHomePage(Model model) {
+        List<Game> topGames = gameController.getGameRepo().findTop10GamesOrderByAverageReviewScore();
+
+        // Calculate average score for each game
+        for (Game game : topGames) {
+            Double averageScore = calculateAverageScore(game);
+            game.setAverageScore(averageScore);
+        }
+
+        List<Review> allReviews = reviewController.getReviewRepository().findAllByOrderByTimeDesc();
+
+        model.addAttribute("topGames", topGames);
+        model.addAttribute("latestReviews", allReviews);
 
         return "homepage";
+    }
+
+    private Double calculateAverageScore(Game game) {
+        List<Review> reviews = game.getReviews();
+        if (reviews.isEmpty()) {
+            return 0.0;
+        }
+        int totalScore = 0;
+        for (Review review : reviews) {
+            totalScore += review.getRating();
+        }
+        return (double) totalScore / reviews.size();
     }
 }
