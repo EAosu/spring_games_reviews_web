@@ -1,0 +1,12 @@
+.table-fixed-size {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-fixed-size td,
+.table-fixed-size th {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    max-width: 0;
+}

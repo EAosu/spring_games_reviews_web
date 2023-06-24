@@ -127,7 +127,7 @@ public class ReviewController {
             // Update the review with the new data
             existingReview.setRating(review.getRating());
             existingReview.setComment(review.getComment());
-
+            existingReview.setTime(LocalDateTime.now());
             // Save the updated review in the database
             reviewRepository.save(existingReview);
 
