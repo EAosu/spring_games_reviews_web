@@ -38,8 +38,9 @@
             <a class="nav-link" href="/reviews/admin/management">Reviews Management</a>
           </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item" style="margin-left: auto;">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <strong>
             <span th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
               <span th:if="${#temporals.createNow().getHour() >= 5 && #temporals.createNow().getHour() < 12}">Good morning,</span>
               <span th:if="${#temporals.createNow().getHour() >= 12 && #temporals.createNow().getHour() < 18}">Good afternoon,</span>
@@ -51,6 +52,7 @@
                 <input type="submit" value="Logout"/>
               </form>
             </span>
+            </strong>
           </li>
         </ul>
       </div>

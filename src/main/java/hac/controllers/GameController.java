@@ -98,6 +98,7 @@ public class GameController {
     @PostMapping("/admin/edit")
     public String editGame(@ModelAttribute("game") Game game, Model model) {
         // Retrieve the existing review from the database
+        System.out.println("In post edit.");
         Optional<Game> existingGameOptional = gameRepository.findById(game.getId());
         if (existingGameOptional.isPresent()) {
             Game existingGame = existingGameOptional.get();
@@ -111,9 +112,9 @@ public class GameController {
             // Save the updated review in the database
             gameRepository.save(existingGame);
 
-            return "admin/management";
+            return "redirect:/games/admin/management";
         }
 
-        return "admin/management";
+        return "redirect:/games/admin/management";
     }
 }

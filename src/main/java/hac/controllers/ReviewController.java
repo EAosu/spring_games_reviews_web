@@ -134,7 +134,7 @@ public class ReviewController {
         }
 
         model.addAttribute("message", "Review not found");
-        return "/user/errorpage";
+        return "errorpage";
     }
 
     @PostMapping("/user/delete/{id}")
