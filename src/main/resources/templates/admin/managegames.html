@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
+    <link rel="stylesheet" th:href="@{/css/general.css}" />
+    <title>Game Management</title>
+</head>
+<body>
+<!-- Insert the contents of the navbar.html -->
+<div th:insert="~{navbar.html}"></div>
+
+<div class="container mb-5 mt-5">
+    <hr>
+    <div class="row">
+        <div class="col">
+            <h3>Game List</h3>
+            <div class="input-group mb-3">
+                <input type="text" id="search" class="form-control" placeholder="Search...">
+                <div class="input-group-append">
+                    <select id="search-type" class="form-select">
+                        <option value="title">Search by Title</option>
+                        <option value="genre">Search by Genre</option>
+                    </select>
+                    <button type="button" class="btn btn-primary" onclick="filterGames()">Search</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" id="singleplayer-filter" class="form-check-input" onchange="filterGames()">
+                        <label for="singleplayer-filter" class="form-check-label">Singleplayer Only</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" id="multiplayer-filter" class="form-check-input" onchange="filterGames()">
+                        <label for="multiplayer-filter" class="form-check-label">Multiplayer Only</label>
+                    </div>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Multiplayer</th>
+                    <th>Singleplayer</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Iterate over the list of games and display each game in a table row -->
+                <tr th:each="game : ${games}" class="game-row">
+                    <td th:text="${game.title}"></td>
+                    <td th:text="${game.genre}"></td>
+                    <td>
+                        <span th:if="${game.multiplayer}">Yes</span>
+                        <span th:unless="${game.multiplayer}">No</span>
+                    </td>
+                    <td>
+                        <span th:if="${game.singleplayer}">Yes</span>
+                        <span th:unless="${game.singleplayer}">No</span>
+                    </td>
+                    <td>
+                        <!-- Add actions for editing and deleting the game -->
+                        <a th:href="@{'/games/admin/edit/' + ${game.id}}" class="btn btn-primary btn-sm">Edit</a>
+                        <a th:href="@{'/games/admin/delete/' + ${game.id}}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterGames() {
+        var input = document.getElementById("search").value.toLowerCase();
+        var searchType = document.getElementById("search-type").value;
+        var rows = document.getElementsByClassName("game-row");
+        var singleplayerFilter = document.getElementById("singleplayer-filter").checked;
+        var multiplayerFilter = document.getElementById("multiplayer-filter").checked;
+
+        for (var i = 0; i < rows.length; i++) {
+            var title = rows[i].getElementsByTagName("td")[0].innerText.toLowerCase();
+            var genre = rows[i].getElementsByTagName("td")[1].innerText.toLowerCase();
+            var isSingleplayer = rows[i].getElementsByTagName("td")[3].innerText.toLowerCase() === "yes";
+            var isMultiplayer = rows[i].getElementsByTagName("td")[2].innerText.toLowerCase() === "yes";
+
+            if (searchType === "title") {
+                if (title.includes(input) && (!singleplayerFilter || (singleplayerFilter && isSingleplayer)) && (!multiplayerFilter || (multiplayerFilter && isMultiplayer))) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            } else if (searchType === "genre") {
+                if (genre.includes(input) && (!singleplayerFilter || (singleplayerFilter && isSingleplayer)) && (!multiplayerFilter || (multiplayerFilter && isMultiplayer))) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
+<script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+</body>
+</html>
