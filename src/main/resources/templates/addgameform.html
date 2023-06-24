@@ -1,0 +1,25 @@
+<form th:action="@{/games/add-game}" method="post">
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input type="text" id="title" name="title" class="form-control" placeholder="Title" required>
+  </div>
+  <div class="mb-3">
+    <label for="genre" class="form-label">Genre</label>
+    <select id="genre" name="genre" class="form-select" multiple required>
+      <option value="Action">Action</option>
+      <option value="Adventure">Adventure</option>
+      <option value="Role-playing">Role-playing</option>
+      <option value="Strategy">Strategy</option>
+      <option value="Sports">Sports</option>
+    </select>
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" id="multiplayer" name="multiplayer" class="form-check-input">
+    <label for="multiplayer" class="form-check-label">Multiplayer</label>
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" id="singleplayer" name="singleplayer" class="form-check-input">
+    <label for="singleplayer" class="form-check-label">Singleplayer</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Add Game</button>
+</form>

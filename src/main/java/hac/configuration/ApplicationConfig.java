@@ -19,7 +19,11 @@ public class ApplicationConfig  {
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder bCryptPasswordEncoder) {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user")
+        manager.createUser(User.withUsername("Luigi")
+                .password(bCryptPasswordEncoder.encode("password"))
+                .roles("USER")
+                .build());
+        manager.createUser(User.withUsername("Mario")
                 .password(bCryptPasswordEncoder.encode("password"))
                 .roles("USER")
                 .build());
@@ -44,11 +48,11 @@ public class ApplicationConfig  {
                 .csrf(withDefaults())
                 .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/", "/login", "/error").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/games/admin/**").hasRole("ADMIN")
                         .requestMatchers("/games/user/**", "/reviews/user/**").hasRole("USER")
+                                .requestMatchers("/games/add-game").authenticated()
                                 .requestMatchers("user/addedreview.html").authenticated()
-                                .requestMatchers("user/search.html").authenticated()
-                                .anyRequest().authenticated()
+
 //                        .requestMatchers("../static/**", "/").permitAll()
                 )
                 .formLogin((form) -> form

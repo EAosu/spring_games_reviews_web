@@ -106,7 +106,6 @@ public class ReviewController {
     }
     @GetMapping("/user/edit/{id}")
     public String editReview(@PathVariable("id") Long id, Model model) {
-        System.out.println("In edit rev");
         // Retrieve the review by ID and add it to the model
         Optional<Review> review = reviewRepository.findById(id);
         model.addAttribute("review", review.orElse(null));

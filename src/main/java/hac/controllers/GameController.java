@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import java.util.Optional;
 import java.util.List;
 
 @Controller
@@ -64,7 +64,7 @@ public class GameController {
         return "user/search";
     }
 
-    @PostMapping("/user/add-game")
+    @PostMapping("/add-game")
     public String postGame(@Valid @ModelAttribute("game") Game game,
                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (!game.isValidSelection()) {
@@ -80,9 +80,40 @@ public class GameController {
         return "redirect:/";
 //        return "/user/search";
     }
-
-
-    @GetMapping("/user/add-game")
-    public String getGameForm() {return "user/addgame";}
+    @GetMapping("/add-game")
+    public String getGameForm() {return "addgame";}
     public GameRepository getGameRepo() {return gameRepository;}
+
+    @GetMapping("/admin/management")
+    public String getGamesControlPanel(Model model) {
+        model.addAttribute("games", gameRepository.findAll());
+        return "admin/managegames";
+    }
+    @GetMapping("/admin/edit/{id}")
+    public String editGame(@PathVariable("id") Long id, Model model){
+        Optional<Game> game = gameRepository.findById(id);
+        model.addAttribute("game", game.orElse(null));
+        return "admin/editgame";
+    }
+    @PostMapping("/admin/edit")
+    public String editGame(@ModelAttribute("game") Game game, Model model) {
+        // Retrieve the existing review from the database
+        Optional<Game> existingGameOptional = gameRepository.findById(game.getId());
+        if (existingGameOptional.isPresent()) {
+            Game existingGame = existingGameOptional.get();
+
+            // Update the review with the new data
+            existingGame.setTitle(game.getTitle());
+            existingGame.setGenre(game.getGenre());
+            existingGame.setMultiplayer(game.getMultiplayer());
+            existingGame.setSingleplayer(game.getSingleplayer());
+
+            // Save the updated review in the database
+            gameRepository.save(existingGame);
+
+            return "admin/management";
+        }
+
+        return "admin/management";
+    }
 }
