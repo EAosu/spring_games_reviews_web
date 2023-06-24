@@ -52,8 +52,6 @@ public class ApplicationConfig  {
                         .requestMatchers("/games/user/**", "/reviews/user/**").hasRole("USER")
                                 .requestMatchers("/games/add-game").authenticated()
                                 .requestMatchers("user/addedreview.html").authenticated()
-
-//                        .requestMatchers("../static/**", "/").permitAll()
                 )
                 .formLogin((form) -> form
                                 .loginPage("/login")

@@ -3,31 +3,28 @@
 <head>
   <title>Edit Review</title>
   <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" />
-  <link rel="stylesheet" th:href="@{/css/general.css}" />
+  <link rel="stylesheet" th:href="@{/css/edit.css}" />
+  <link rel="stylesheet" th:href="@{/css/rating.css}" />
 </head>
 <body>
 <div th:insert="~{navbar.html}"></div>
 
-<h1>Edit Review</h1>
+<div class="container">
+  <h1>Edit Review</h1>
 
-<form th:action="@{/reviews/user/edit}" method="post">
-  <input type="hidden" th:name="_csrf" th:value="${_csrf.token}" />
+  <form th:action="@{/reviews/user/edit}" method="post">
+    <input type="hidden" th:name="id" th:value="${review.id}" />
 
-  <input type="hidden" th:name="id" th:value="${review.id}" />
+    <div th:insert="~{ratingstars.html}"></div>
 
-  <div class="mb-3">
-    <label for="rating" class="form-label">Rating:</label>
-    <input type="number" class="form-control" id="rating" name="rating" th:value="${review.rating}" min="1" max="5" required />
-  </div>
+    <div class="mb-3">
+      <label for="comment" class="form-label">Comment:</label>
+      <textarea class="form-control" id="comment" name="comment" required th:text="${review.comment}"></textarea>
+    </div>
 
-  <div class="mb-3">
-    <label for="comment" class="form-label">Comment:</label>
-    <textarea class="form-control" id="comment" name="comment" required th:text="${review.comment}"></textarea>
-
-  </div>
-
-  <button type="submit" class="btn btn-primary">Save Changes</button>
-</form>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+</div>
 
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 </body>
