@@ -42,18 +42,22 @@ public class GameController {
 
         List<Game> searchResults;
 
-        if (title != null && genre != null && multiplayer != null && singleplayer != null) {
+        System.out.println(title);
+        System.out.println(genre);
+        System.out.println(multiplayer);
+        System.out.println(singleplayer);
+
+        if (title != "" && genre != null && multiplayer != null && singleplayer != null) {
             // All fields provided
             searchResults = gameRepository.findByTitleContainingIgnoreCaseAndGenreIgnoreCaseAndMultiplayerAndSingleplayer(
                     title, genre, multiplayer, singleplayer);
-        } else if (title != null) {
+        } else if (title != "") {
             // Only title provided
             searchResults = gameRepository.findByTitleContainingIgnoreCase(title);
         } else {
             // No search criteria provided, retrieve all games
             searchResults = gameRepository.findAll();
         }
-
         model.addAttribute("searchResults", searchResults);
 
         return "user/search";

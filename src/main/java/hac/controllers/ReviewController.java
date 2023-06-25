@@ -67,7 +67,6 @@ public class ReviewController {
                              @RequestParam(value="gameId") Long gameId,
                              BindingResult result, Model model) {
         if (result.hasErrors()) {
-            System.out.println("Got errors");
             model.addAttribute("errors", result.getAllErrors());
             return "errorpage"; // Replace with your error page
         }
@@ -117,8 +116,13 @@ public class ReviewController {
 
 
     @PostMapping("/user/edit")
-    public String editReview(@ModelAttribute("review") Review review, Model model) {
+    public String editReview(@Valid @ModelAttribute("review") Review review,
+                             BindingResult result, Model model) {
         // Retrieve the existing review from the database
+        if(result.hasErrors()){
+            model.addAttribute("errors", result.getAllErrors());
+            return "errorpage";
+        }
         Optional<Review> existingReviewOptional = reviewRepository.findById(review.getId());
         if (existingReviewOptional.isPresent()) {
             Review existingReview = existingReviewOptional.get();
