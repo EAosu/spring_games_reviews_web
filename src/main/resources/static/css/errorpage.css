@@ -1,0 +1,31 @@
+.error-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.error-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.error-container ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.error-container li {
+    margin-bottom: 10px;
+}
+
+.error-container a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    text-decoration: none;
+}

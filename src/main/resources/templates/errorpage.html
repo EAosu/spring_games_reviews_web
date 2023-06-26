@@ -1,24 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Error page</title>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" />
   <link rel="stylesheet" th:href="@{/css/general.css}" />
-  <link rel="stylesheet" th:href="@{/css/form.css}" />
+  <link rel="stylesheet" th:href="@{/css/errorpage.css}" />
 </head>
 <body>
 <div th:insert="~{navbar.html}"></div>
-<h1>Validation Errors</h1>
-<ul>
-  <th:block th:if="${errors}">
-    <th:block th:each="error : ${errors}">
-      <li th:text="${error.defaultMessage}"></li>
-    </th:block>
-  </th:block>
-  <li th:if="${errorMessage}" th:text="${errorMessage}"></li>
-</ul>
 
-<a href="/" th:href="@{/}">Back to Home Page</a>
+<div class="error-container">
+  <h1>Validation Errors</h1>
+  <ul>
+    <th:block th:if="${errors}">
+      <th:block th:each="error : ${errors}">
+        <li th:text="${error.defaultMessage}"></li>
+      </th:block>
+    </th:block>
+    <li th:if="${errorMessage}" th:text="${errorMessage}"></li>
+  </ul>
+
+  <a href="/" th:href="@{/}" class="btn btn-primary">Back to Home Page</a>
+</div>
+
+<script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

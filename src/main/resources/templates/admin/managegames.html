@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
-    <link rel="stylesheet" th:href="@{/css/form.css}" />
     <link rel="stylesheet" th:href="@{/css/general.css}" />
+    <link rel="stylesheet" th:href="@{/css/form.css}" />
     <title>Game Management</title>
 </head>
 <body>
@@ -11,14 +11,28 @@
 <div th:insert="~{navbar.html}"></div>
 
 <div class="container mb-5 mt-5">
-    <hr>
     <div class="row">
         <div class="col">
-            <h3>Game List</h3>
-
+            <h1>Manage Games</h1>
+            <hr/>
             <div class="row">
                 <div class="col-10">
-                    <input type="text" id="search" class="form-control mr-3" placeholder="Search...">
+                    <input type="text" id="search" class="form-control mr-3" placeholder="Search games...">
+
+                    <div class="form-row mt-2">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" id="singleplayer-filter" class="form-check-input" onchange="filterGames()">
+                                <label for="singleplayer-filter" class="form-check-label">Singleplayer</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" id="multiplayer-filter" class="form-check-input" onchange="filterGames()">
+                                <label for="multiplayer-filter" class="form-check-label">Multiplayer</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-2">
@@ -28,27 +42,13 @@
                             <option value="genre">Genre</option>
                         </select>
                     </div>
+                    <button type="button" class="btn btn-primary mt-1" onclick="filterGames()">Search</button>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="col mt-1">
-                    <button type="button" class="btn btn-primary" onclick="filterGames()">Search</button>
-                </div>
-                <div class="col">
-                    <div class="form-check form-switch">
-                        <input type="checkbox" id="singleplayer-filter" class="form-check-input" onchange="filterGames()">
-                        <label for="singleplayer-filter" class="form-check-label">Singleplayer Only</label>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-check form-switch">
-                        <input type="checkbox" id="multiplayer-filter" class="form-check-input" onchange="filterGames()">
-                        <label for="multiplayer-filter" class="form-check-label">Multiplayer Only</label>
-                    </div>
-                </div>
-            </div>
-            <table class="table">
+            <hr/>
+            <h2>Search Results</h2>
+            <table class="table mt-2">
                 <thead>
                 <tr>
                     <th>Title</th>

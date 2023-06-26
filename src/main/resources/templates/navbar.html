@@ -1,7 +1,9 @@
 <div xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <nav class="navbar navbar-expand-lg bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" href="#">
+        <img src="/img/spaceship.png" alt="Spaceship"/>
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -40,16 +42,19 @@
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <strong>
+            <strong style="color: #ababb0">
             <span th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
               <span th:if="${#temporals.createNow().getHour() >= 5 && #temporals.createNow().getHour() < 12}">Good morning,</span>
               <span th:if="${#temporals.createNow().getHour() >= 12 && #temporals.createNow().getHour() < 18}">Good afternoon,</span>
               <span th:if="${#temporals.createNow().getHour() >= 18 || #temporals.createNow().getHour() < 5}">Good evening,</span>
-              <span sec:authentication="name">?</span>.
-              Logged in as: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span> |
+              <span sec:authentication="name">?</span>. |
+              Your role:
+              <span th:if="${#lists.contains(#authentication.principal.authorities.![authority], 'ROLE_ADMIN')}">Admin</span>
+              <span th:unless="${#lists.contains(#authentication.principal.authorities.![authority], 'ROLE_ADMIN')}">User</span>
+ |
               <!-- When using CSRF, this needs to be a POST -->
               <form th:action="@{/logout}" method="post" style="display:inline; margin-left:auto">
-                <input type="submit" value="Logout"/>
+                <input class="btn btn-outline-danger" type="submit" value="Logout"/>
               </form>
             </span>
             </strong>

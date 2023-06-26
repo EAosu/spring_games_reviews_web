@@ -27,7 +27,6 @@ public class Game {
 
     private Boolean singleplayer;
 
-    @Transient
     private Double averageScore;
 
 
@@ -46,8 +45,21 @@ public class Game {
     public void addReview(Review review) {
         review.setGame(this);
         reviews.add(review);
-        for (int i = 0; i < reviews.size(); i++) {
-            System.out.println(reviews.get(i));
+        calculateAverageScore();
+    }
+
+    public void calculateAverageScore() {
+        System.out.println("Calculating average");
+        double sum = 0.0;
+        if (!reviews.isEmpty()) {
+            for (Review review : reviews) {
+                sum += review.getRating();
+            }
+            System.out.println("Finished calculating successfully");
+            setAverageScore(sum / reviews.size());
+        } else {
+            System.out.println("Finished calculating unsuccessfully");
+            averageScore = null;
         }
     }
 

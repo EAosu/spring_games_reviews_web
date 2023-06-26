@@ -34,9 +34,9 @@ body {
 }
 
 .nav li.active {
-    background-color: #555;
+    background-color: antiquewhite;
 }
 
 .nav li:hover {
-    background-color: #777;
+    background-color: navajowhite;
 }

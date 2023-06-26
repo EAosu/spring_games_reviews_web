@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Objects;
 import java.util.Optional;
 import java.util.List;
 
@@ -24,44 +26,38 @@ public class GameController {
         this.gameRepository = gameRepository;
     }
 
-    // Implement your game-related methods here
-    @GetMapping("/all")
-    @ResponseBody
-    public List<Game> getAllGames() {
-        return gameRepository.findAll();
-    }
-
-
-
     @PostMapping("/user/search")
-    public String getSearchResults(@RequestParam(value = "title", required = false) String title,
-                                   @RequestParam(value = "genre", required = false) String genre,
-                                   @RequestParam(value = "multiplayer", required = false) Boolean multiplayer,
-                                   @RequestParam(value = "singleplayer", required = false) Boolean singleplayer,
-                                   Model model) {
+    public String getSearchResults(@ModelAttribute("game") Game game, Model model) {
+        // Must provide at least one of multiplayer/singleplayer
+        if (!game.isValidSelection()) {
+            model.addAttribute("errorMessage", "Please select Multiplayer or Singleplayer");
+            return "errorpage";
+        }
 
         List<Game> searchResults;
 
-        System.out.println(title);
-        System.out.println(genre);
-        System.out.println(multiplayer);
-        System.out.println(singleplayer);
-
-        if (title != "" && genre != null && multiplayer != null && singleplayer != null) {
-            // All fields provided
-            searchResults = gameRepository.findByTitleContainingIgnoreCaseAndGenreIgnoreCaseAndMultiplayerAndSingleplayer(
-                    title, genre, multiplayer, singleplayer);
-        } else if (title != "") {
-            // Only title provided
-            searchResults = gameRepository.findByTitleContainingIgnoreCase(title);
+        if (!game.getTitle().isEmpty() && game.getGenre() != null) {
+            // Title and genre are provided
+            searchResults = gameRepository.findByTitleGenreAndSingleplayerOrMultiplayer(
+                    game.getTitle(), game.getGenre(), game.getSingleplayer() != null, game.getMultiplayer() != null);
+        } else if (!game.getTitle().isEmpty()) {
+            // No genre provided, title is provided
+            searchResults = gameRepository.findByTitleAndSingleplayerOrMultiplayer(
+                    game.getTitle(), game.getSingleplayer() != null, game.getMultiplayer() != null);
+        } else if (game.getGenre() != null) {
+            // No title provided, genre is provided
+            searchResults = gameRepository.findByGenreAndSingleplayerOrMultiplayer(
+                    game.getGenre(), game.getSingleplayer() != null, game.getMultiplayer() != null);
         } else {
-            // No search criteria provided, retrieve all games
-            searchResults = gameRepository.findAll();
+            // No title and genre provided
+            searchResults = gameRepository.findBySingleplayerOrMultiplayer(
+                    game.getSingleplayer() != null, game.getMultiplayer() != null);
         }
-        model.addAttribute("searchResults", searchResults);
 
+        model.addAttribute("searchResults", searchResults);
         return "user/search";
     }
+
 
     @GetMapping("/user/search")
     public String getSearchForm() {
@@ -73,14 +69,14 @@ public class GameController {
                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (!game.isValidSelection()) {
             result.rejectValue("multiplayer", "game.selection.invalid",
-                    "Please select either Multiplayer or Singleplayer");
+                    "Please select Multiplayer or Singleplayer");
         }
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
             return "errorpage";
         }
         gameRepository.save(game);
-        redirectAttributes.addFlashAttribute("message","Game added successfully");
+        redirectAttributes.addFlashAttribute("message","Game was added successfully.");
         return "redirect:/";
 //        return "/user/search";
     }
@@ -102,7 +98,6 @@ public class GameController {
     @PostMapping("/admin/edit")
     public String editGame(@ModelAttribute("game") Game game, Model model) {
         // Retrieve the existing review from the database
-        System.out.println("In post edit.");
         Optional<Game> existingGameOptional = gameRepository.findById(game.getId());
         if (existingGameOptional.isPresent()) {
             Game existingGame = existingGameOptional.get();

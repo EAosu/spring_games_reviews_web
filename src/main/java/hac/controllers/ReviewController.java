@@ -131,6 +131,7 @@ public class ReviewController {
             existingReview.setRating(review.getRating());
             existingReview.setComment(review.getComment());
             existingReview.setTime(LocalDateTime.now());
+            existingReview.getGame().calculateAverageScore();
             // Save the updated review in the database
             reviewRepository.save(existingReview);
 

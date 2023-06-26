@@ -1,40 +1,51 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" />
-  <link rel="stylesheet" th:href="@{/css/general.css}" />
-  <link rel="stylesheet" th:href="@{/css/form.css}" />
   <title>Game Reviews</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" />
+  <link rel="stylesheet" th:href="@{/css/reviewstable.css}" />
+  <link rel="stylesheet" th:href="@{/css/general.css}" />
 </head>
 <body>
+<div th:insert="~{navbar.html}"></div>
 
-<h1>Game Reviews</h1>
-<div>
-  <h2 th:text="${game.title}"></h2>
-  <p th:text="'Genre: ' + ${game.genre}"></p>
-  <p th:text="'Multiplayer: ' + ${game.multiplayer}"></p>
-  <p th:text="'Singleplayer: ' + ${game.singleplayer}"></p>
+<div class="container mt-5">
+  <h1>Game Reviews</h1>
+  <hr/>
+  <div class="row">
+    <div class="col">
+      <div>
+        <h5 th:text="${game.title}"></h5>
+        <p><strong>Genre:</strong> <span th:text="${game.genre}"></span></p>
+        <p><strong>Multiplayer:</strong> <span th:text="${game.multiplayer} ? 'Yes' : 'No'"></span></p>
+        <p><strong>Singleplayer:</strong> <span th:text="${game.singleplayer} ? 'Yes' : 'No'"></span></p>
+        <p th:if="${game.averageScore != null}"><strong>Average Score:</strong> <span th:text="${game.averageScore}"></span></p>
+        <p th:if="${game.averageScore == null}">No reviews yet</p>
+      </div>
+      <hr/>
+      <div>
+        <h3>Reviews</h3>
+        <table class="table table-fixed-size">
+          <thead>
+          <tr>
+            <th scope="col">User</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Comment</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="review : ${reviews}">
+            <td th:text="${review.username}"></td>
+            <td th:text="${review.rating + '/5'}"></td>
+            <td th:text="${review.comment}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-<div>
-  <h3>Reviews</h3>
-  <table>
-    <thead>
-    <tr>
-      <th>User</th>
-      <th>Rating</th>
-      <th>Comment</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="review : ${reviews}">
-      <td th:text="${review.username}"></td>
-      <td th:text="${review.rating + '/5'}"></td>
-      <td th:text="${review.comment}"></td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
 </body>
 </html>
