@@ -10,7 +10,7 @@ body {
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 30px;
-    background-color: #ffffff;
+    background-color: rgba(210, 210, 210, 0.8);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -68,4 +68,9 @@ h3 {
 .btn-danger:hover {
     background-color: #c82333;
     border-color: #c82333;
+}
+
+.card {
+    background-color: rgba(240, 240, 240, 0.6);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }

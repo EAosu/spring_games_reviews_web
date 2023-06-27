@@ -33,9 +33,9 @@ public class Review {
     // Constructors
     public Review(int rating, String comment, LocalDateTime time, String username) {
         this.rating = rating;
-        this.comment = comment;
+        this.comment = comment.trim();
         this.time = time;
-        this.username = username;
+        this.username = username.trim();
     }
 
     public Review() {

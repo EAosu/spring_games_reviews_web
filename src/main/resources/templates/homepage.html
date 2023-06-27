@@ -36,7 +36,7 @@
               <th:block th:each="game, iteration : ${topGames}">
                 <div class="carousel-item" th:classappend="${iteration.first ? 'active' : ''}">
                   <div class="game-item">
-                    <h3 th:text="${game.title}"></h3>
+                    <h3  class="card-title" th:text="${game.title}"></h3>
                     <p> <strong>Average Score:</strong> <span th:text="${game.averageScore}"></span></p>
                     <p class="card-text"><strong>Genre:</strong> <span th:text="${game.genre}"></span></p>
                     <p class="card-text"><strong>Multiplayer:</strong> <span th:text="${game.multiplayer} ? 'Yes' : 'No'"></span></p>
@@ -45,12 +45,12 @@
                 </div>
               </th:block>
             </div>
-            <div style="padding: 10px">
-              <a class="btn btn-danger" href="#game-slideshow" role="button" data-bs-slide="prev">
+            <div style="padding-top:20px;">
+              <a class="btn btn-outline-dark" href="#game-slideshow" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="false"></span>
                 <span class="visually-hidden">Previous</span>
               </a>
-              <a class="btn btn-danger" href="#game-slideshow" role="button" data-bs-slide="next">
+              <a class="btn btn-outline-dark" href="#game-slideshow" role="button" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="false"></span>
                 <span class="visually-hidden">Next</span>
               </a>
@@ -67,7 +67,7 @@
         <div class="card-header">
           <h1>Latest Reviews</h1>
         </div>
-        <div class="card-body" style="max-height: 285px; overflow: auto;">
+        <div class="card-body" style="max-height: 290px; overflow: auto;">
           <div id="review-slideshow" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
               <th:block th:each="review, iteration : ${latestReviews}">
@@ -83,12 +83,12 @@
                 </div>
               </th:block>
             </div>
-            <div  style="padding: 10px">
-              <a class="btn btn-primary" href="#review-slideshow" role="button" data-bs-slide="prev">
+            <div style="padding-top:20px;">
+              <a class="btn btn-outline-dark" href="#review-slideshow" role="button" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
               </a>
-              <a class="btn btn-primary" href="#review-slideshow" role="button" data-bs-slide="next">
+              <a class="btn btn-outline-dark" href="#review-slideshow" role="button" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
               </a>

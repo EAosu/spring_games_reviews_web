@@ -36,8 +36,8 @@ public class Game {
     }
 
     public Game(String title, String genre, Boolean multiplayer, Boolean singleplayer) {
-        this.title = title;
-        this.genre = genre;
+        this.title = title.trim();
+        this.genre = genre.trim();
         this.multiplayer = multiplayer;
         this.singleplayer = singleplayer;
     }
