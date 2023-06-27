@@ -46,11 +46,12 @@ public class ApplicationConfig  {
                 .cors(withDefaults())
                 .csrf(withDefaults())
                 .authorizeHttpRequests((requests) -> requests
-                                .requestMatchers("/", "/login", "/error").permitAll()
-                        .requestMatchers("/games/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/", "/login", "/error").permitAll()
+                        .requestMatchers("/games/admin/**", "/reviews/admin/**").hasRole("ADMIN")
                         .requestMatchers("/games/user/**", "/reviews/user/**").hasRole("USER")
-                                .requestMatchers("/games/add-game").authenticated()
-                                .requestMatchers("user/addedreview.html").authenticated()
+                        .requestMatchers("/games/add-game").authenticated()
+                        .requestMatchers("user/addedreview.html").authenticated()
+
                 )
                 .formLogin((form) -> form
                                 .loginPage("/login")

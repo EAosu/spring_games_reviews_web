@@ -116,4 +116,25 @@ public class GameController {
 
         return "redirect:/games/admin/management";
     }
+    @PostMapping("/admin/delete/{id}")
+    public String deleteReview(@PathVariable Long id, Model model) {
+        System.out.println("In post mapping");
+
+        // Find the game by ID
+        Optional<Game> optionalGame = gameRepository.findById(id);
+        if (optionalGame.isPresent()) {
+            Game game = optionalGame.get();
+
+            // Delete the game
+            gameRepository.delete(game);
+
+            return "homepage";
+        }
+
+        model.addAttribute("message", "An error");
+        return "/user/errorpage";
+    }
+
+
+
 }
