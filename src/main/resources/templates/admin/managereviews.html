@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/css/general.css}" />
+  <title>Review Management</title>
+</head>
+<body>
+<!-- Insert the contents of the navbar.html -->
+<div th:insert="~{navbar.html}"></div>
+
+<div class="container mb-5 mt-5">
+  <div class="row">
+    <div class="col">
+      <h1>Manage Reviews</h1>
+      <hr/>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Username</th>
+          <th>Game Title</th>
+          <th>Comment</th>
+          <th>Rating</th>
+          <th>Time</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Iterate over the reviews list -->
+        <tr th:each="review : ${reviews}">
+          <td th:text="${review.username}"></td>
+          <td th:text="${review.game.title}"></td> <!-- Access the game title directly -->
+          <td th:text="${review.comment}"></td>
+          <td th:text="${review.rating}"></td>
+          <td th:text="${#temporals.format(review.time, 'yyyy-MM-dd HH:mm:ss')}"></td>
+          <td>
+            <!-- Delete Review form -->
+            <form th:action="@{/reviews/admin/delete}" method="post">
+              <!-- Hidden input field to send the review ID in the request body -->
+              <input type="hidden" name="reviewId" th:value="${review.id}" />
+              <!-- Delete Review button -->
+              <button type="submit" class="btn btn-danger">Delete Review</button>
+            </form>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <!-- Add any additional HTML code or functionality as needed -->
+
+    </div>
+  </div>
+</div>
+
+<script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+</body>
+</html>

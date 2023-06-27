@@ -30,6 +30,18 @@ public class Review {
     @JoinColumn(name = "game_id", referencedColumnName = "id")
     private Game game;
 
+    @Transient
+    private String gameTitle;
+
+    // Getter and setter for game title
+    public String getGameTitle() {
+        return gameTitle;
+    }
+
+    public void setGameTitle(String gameTitle) {
+        this.gameTitle = gameTitle;
+    }
+
     // Constructors
     public Review(int rating, String comment, LocalDateTime time, String username) {
         this.rating = rating;

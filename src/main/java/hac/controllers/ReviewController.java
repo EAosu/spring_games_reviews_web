@@ -155,6 +155,25 @@ public class ReviewController {
         return "/user/errorpage";
     }
 
+    @GetMapping("/admin/management")
+    public String getReviewsControlPanel(Model model) {
+        model.addAttribute("reviews", reviewRepository.findAll());
+        return "/admin/managereviews";
+    }
+
+    @PostMapping("/admin/delete")
+    public String deleteReview(@RequestParam("reviewId") Long reviewId) {
+        Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
+        if (reviewOptional.isPresent()) {
+            Review review = reviewOptional.get();
+            reviewRepository.delete(review);
+            return "redirect:/reviews/admin/management";
+        }
+        // Handle the case when the review is not found
+        // You can add an error message or redirect to an error page
+        return "redirect:/reviews/admin/management";
+    }
+
     public ReviewRepository getReviewRepository() {
         return reviewRepository;
     }
