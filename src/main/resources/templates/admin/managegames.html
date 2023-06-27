@@ -72,15 +72,13 @@
                         <span th:unless="${game.singleplayer}">No</span>
                     </td>
                     <td>
-                        <!-- Add actions for editing and deleting the game -->
-                        <a th:href="@{'/games/admin/edit/' + ${game.id}}" class="btn btn-primary btn-sm">Edit</a>
-
-                        <!-- Add a delete button that triggers the confirmation modal -->
-                        <form th:action="@{'/games/admin/delete/' + ${game.id}}" method="post" onsubmit="return showConfirmationModal(event)">
-                            <!-- Display the confirmation modal when the delete button is clicked -->
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            <input type="hidden" name="_method" value="DELETE" />
-                        </form>
+                        <div class="btn-group">
+                            <a th:href="@{'/games/admin/edit/' + ${game.id}}" class="btn btn-primary btn-sm">Edit</a>
+                            <form style="margin-left: 5px;" th:action="@{'/games/admin/delete/' + ${game.id}}" method="post" onsubmit="return showConfirmationModal(event)">
+                                <button  type="submit" class="btn btn-danger btn-sm" >Delete</button>
+                                <input type="hidden" name="_method" value="DELETE" />
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
