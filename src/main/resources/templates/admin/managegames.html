@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{/css/general.css}" />
@@ -74,28 +74,55 @@
                     <td>
                         <!-- Add actions for editing and deleting the game -->
                         <a th:href="@{'/games/admin/edit/' + ${game.id}}" class="btn btn-primary btn-sm">Edit</a>
-                        <a th:href="@{'/games/admin/delete/' + ${game.id}}" class="btn btn-danger btn-sm">Delete</a>
+
+                        <!-- Add a delete button that triggers the confirmation modal -->
+                        <form th:action="@{'/games/admin/delete/' + ${game.id}}" method="post" onsubmit="return showConfirmationModal(event)">
+                            <!-- Display the confirmation modal when the delete button is clicked -->
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            <input type="hidden" name="_method" value="DELETE" />
+                        </form>
                     </td>
                 </tr>
                 </tbody>
             </table>
+
         </div>
     </div>
 </div>
 
+<!-- Modal for confirmation -->
+<div id="confirmationModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header modal-header-no-close">
+                <h5 class="modal-title">WARNING</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Deleting this game will also delete all of the game's reviews. Are you sure you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="confirmDeleteBtn" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     function filterGames() {
-        var input = document.getElementById("search").value.toLowerCase();
-        var searchType = document.getElementById("search-type").value;
-        var rows = document.getElementsByClassName("game-row");
-        var singleplayerFilter = document.getElementById("singleplayer-filter").checked;
-        var multiplayerFilter = document.getElementById("multiplayer-filter").checked;
+        let input = document.getElementById("search").value.toLowerCase();
+        let searchType = document.getElementById("search-type").value;
+        let rows = document.getElementsByClassName("game-row");
+        let singleplayerFilter = document.getElementById("singleplayer-filter").checked;
+        let multiplayerFilter = document.getElementById("multiplayer-filter").checked;
 
-        for (var i = 0; i < rows.length; i++) {
-            var title = rows[i].getElementsByTagName("td")[0].innerText.toLowerCase();
-            var genre = rows[i].getElementsByTagName("td")[1].innerText.toLowerCase();
-            var isSingleplayer = rows[i].getElementsByTagName("td")[3].innerText.toLowerCase() === "yes";
-            var isMultiplayer = rows[i].getElementsByTagName("td")[2].innerText.toLowerCase() === "yes";
+        for (let i = 0; i < rows.length; i++) {
+            let title = rows[i].getElementsByTagName("td")[0].innerText.toLowerCase();
+            let genre = rows[i].getElementsByTagName("td")[1].innerText.toLowerCase();
+            let isSingleplayer = rows[i].getElementsByTagName("td")[3].innerText.toLowerCase() === "yes";
+            let isMultiplayer = rows[i].getElementsByTagName("td")[2].innerText.toLowerCase() === "yes";
 
             if (searchType === "title") {
                 if (title.includes(input) && (!singleplayerFilter || (singleplayerFilter && isSingleplayer)) && (!multiplayerFilter || (multiplayerFilter && isMultiplayer))) {
@@ -111,6 +138,27 @@
                 }
             }
         }
+    }
+    function showConfirmationModal(event) {
+        event.preventDefault(); // Prevent the form from submitting immediately
+
+        // Add event listener to the modal's delete button
+        let confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        confirmDeleteBtn.addEventListener('click', function() {
+            // Submit the form when the delete button in the modal is clicked
+            event.target.submit();
+        });
+
+        // Show the confirmation modal
+        $('#confirmationModal').modal('show');
+
+        // Add event listener to the modal's cancel button
+        let cancelBtn = document.querySelector('#confirmationModal .modal-footer button[data-dismiss="modal"]');
+        cancelBtn.addEventListener('click', function() {
+            // Close the confirmation modal
+            $('#confirmationModal').modal('hide');
+        });
+        return false; // Prevent the form from submitting
     }
 </script>
 <script src="/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>

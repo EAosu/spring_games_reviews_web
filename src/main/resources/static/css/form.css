@@ -57,3 +57,26 @@ input[type="checkbox"]:checked:before {
 input[type="checkbox"]:checked {
     background-color: #2d84a9;
 }
+.modal-header-no-close .close {
+    display: none;
+}
+.modal-header-no-close {
+    background-color: #f8f9fa;
+    border-bottom: none;
+}
+
+/* Style for the modal title */
+.modal-title {
+    color: #c63535;
+}
+
+/* Style for the modal body */
+.modal-body {
+    color: #555;
+}
+
+/* Style for the modal footer */
+.modal-footer {
+    background-color: #f8f9fa;
+    border-top: none;
+}
