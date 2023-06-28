@@ -1,0 +1,24 @@
+body {
+    padding-top: 20px;
+}
+.error-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: rgba(240, 240, 240, 0.6);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.error-heading {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+.error-message {
+    margin-bottom: 20px;
+}
+.back-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+}

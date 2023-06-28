@@ -167,7 +167,7 @@ public class GameController {
             // Delete the game
             gameRepository.delete(game);
 
-            return "homepage";
+            return "redirect:/games/admin/management";
         }
 
         model.addAttribute("message", "An error");
