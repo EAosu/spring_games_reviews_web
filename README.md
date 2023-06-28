@@ -33,11 +33,12 @@
   <li>See the homepage</li>
   <li>See the login page</li>
 </ul>
-## Installation
+
+<h2>Installation</h2>
 Add a table called "ex5" in phpmyadmin. anything else will be created automatically 
 (database creation, etc)
 
-## Useful information
+<h2>Useful information</h2> 
 
 username and password of User role:
 1. Mario / password
