@@ -28,8 +28,11 @@
   <li>Delete games</li>
   <li>Edit games</li>
 </ul>
-
-
+<h2>Not authenticated</h2>
+<ul>
+  <li>See the homepage</li>
+  <li>See the login page</li>
+</ul>
 ## Installation
 Add a table called "ex5" in phpmyadmin. anything else will be created automatically 
 (database creation, etc)
