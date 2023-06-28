@@ -37,38 +37,69 @@ public class ReviewController {
 //        return reviewRepository.findAll();
 //    }
 
+    /**
+     *  returns all reviews on a game by a given game id
+     * @param gameId - unique key for the gameRepository
+     * @param model - inserting attributes to the page
+     * @return game's reviews if exists,  error page else
+     */
     @GetMapping("/user/game-reviews")
     public String getGameReviews(@RequestParam(value = "gameId") Long gameId, Model model) {
         Optional<Game> gameOptional = gameRepository.findById(gameId);
+
         if (gameOptional.isPresent()) {
             Game game = gameOptional.get();
             List<Review> reviews = game.getReviews();
             model.addAttribute("game", game);
             model.addAttribute("reviews", reviews);
+            return "user/gamereviews";
         }
-        return "user/gamereviews";
+        model.addAttribute("errorMessage","Game could not be found");
+        return "errorpage";
     }
 
-    @GetMapping("/user/add-review")
+    /**
+     *  Returns a review form if game exists
+     * @param gameId game's id
+     * @param model to add attributes
+     * @return error page if inputs are invalid, addReview page with the game's attribs else
+     */
+    @GetMapping("/user/addreview")
     public String getReviewForm(@RequestParam(value = "gameId") Long gameId, Model model) {
         Optional<Game> gameOptional = gameRepository.findById(gameId);
-        model.addAttribute("gameId", gameId);
-        model.addAttribute("title", gameOptional.map(Game::getTitle).orElse(""));
-        return "user/addreview";
+        if(gameOptional.isPresent()){
+            model.addAttribute("gameId", gameId);
+            model.addAttribute("title", gameOptional.map(Game::getTitle).orElse(""));
+            return "user/addreview";
+        }
+        model.addAttribute("errorMessage","Game could not be found");
+        return "errorpage";
     }
 
+    /**
+     * @return Review added successfully page
+     */
     @GetMapping("/user/review-added")
     public String showReviewAddedPage() {
         return "user/addedreview";
     }
 
-    @PostMapping("/user/add-review")
-    public String postReview(@Valid @ModelAttribute("review") Review review,
+    /**
+     * Method to add a new review based on given gameId and a given review object
+     * @param review A review object
+     * @param result result from validating the review
+     * @param gameId an optional entry for gameRepo
+     * @param model to add attributes
+     * @return Success page on success, error page if review/game id is invalid
+     */
+    @PostMapping("/user/addreview")
+    public String postReview(@Valid Review review,
+                             BindingResult result,
                              @RequestParam(value="gameId") Long gameId,
-                             BindingResult result, Model model) {
+                              Model model) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getAllErrors());
-            return "errorpage"; // Replace with your error page
+            return "errorpage";
         }
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -93,6 +124,11 @@ public class ReviewController {
         return "redirect:/reviews/user/review-added";
     }
 
+    /**
+     * method to return all users reviews
+     * @param model to add attributes
+     * @return All reviews added by the authenticated user (by his username)
+     */
     @GetMapping("/user/all")
     public String getUserReviews(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -103,20 +139,30 @@ public class ReviewController {
 
         return "user/reviews";
     }
+
+    /**
+     * Get method to return an edit review page
+     * @param id - potential entry for game repo
+     * @param model to add attributes
+     * @return editreview page with a review object or null as "review" attrib
+     */
     @GetMapping("/user/edit/{id}")
     public String editReview(@PathVariable("id") Long id, Model model) {
         // Retrieve the review by ID and add it to the model
         Optional<Review> review = reviewRepository.findById(id);
         model.addAttribute("review", review.orElse(null));
-
-        // Add any additional necessary data to the model
-
         return "user/editreview";
     }
 
-
+    /**
+     *  A post method for editing an existing review
+     * @param review - review obj
+     * @param result result from validating the review's field
+     * @param model to add attributes
+     * @return error message on failure or all of the user's reviews
+     */
     @PostMapping("/user/edit")
-    public String editReview(@Valid @ModelAttribute("review") Review review,
+    public String editReview(@Valid Review review,
                              BindingResult result, Model model) {
         // Retrieve the existing review from the database
         if(result.hasErrors()){
@@ -126,13 +172,10 @@ public class ReviewController {
         Optional<Review> existingReviewOptional = reviewRepository.findById(review.getId());
         if (existingReviewOptional.isPresent()) {
             Review existingReview = existingReviewOptional.get();
-
-            // Update the review with the new data
             existingReview.setRating(review.getRating());
             existingReview.setComment(review.getComment());
             existingReview.setTime(LocalDateTime.now());
             existingReview.getGame().calculateAverageScore();
-            // Save the updated review in the database
             reviewRepository.save(existingReview);
 
             return "redirect:/reviews/user/all";
@@ -142,6 +185,12 @@ public class ReviewController {
         return "errorpage";
     }
 
+    /**
+     * A post method for deleting a user's review by a given review id
+     * @param id potential entry in review repo
+     * @param model to add attributes
+     * @return error page if entry not found, all users reviews if successfully deleted
+     */
     @PostMapping("/user/delete/{id}")
     public String deleteReview(@PathVariable Long id, Model model) {
         // Delete the review by ID
@@ -155,12 +204,22 @@ public class ReviewController {
         return "/user/errorpage";
     }
 
+    /**
+     *  Returns a special admin page with all reviews allows him to take action on those reviews
+     * @param model to add all reviews
+     * @return manage reviews page for the admin which contains all reviews in the review repo
+     */
     @GetMapping("/admin/management")
     public String getReviewsControlPanel(Model model) {
         model.addAttribute("reviews", reviewRepository.findAll());
         return "/admin/managereviews";
     }
 
+    /**
+     * Post method to delete a review by a given review id
+     * @param reviewId potential key
+     * @return management page in both cases of existing and non-existing key
+     */
     @PostMapping("/admin/delete")
     public String deleteReview(@RequestParam("reviewId") Long reviewId) {
         Optional<Review> reviewOptional = reviewRepository.findById(reviewId);
@@ -170,10 +229,8 @@ public class ReviewController {
             return "redirect:/reviews/admin/management";
         }
         // Handle the case when the review is not found
-        // You can add an error message or redirect to an error page
         return "redirect:/reviews/admin/management";
     }
-
     public ReviewRepository getReviewRepository() {
         return reviewRepository;
     }

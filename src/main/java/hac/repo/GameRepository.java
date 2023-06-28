@@ -6,7 +6,15 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/**
+ * Here we wrote this queries cause trying to use the jpa functions didn't work for use
+ * All of those queries are used by our advanced search options. there are a few cases of what happens if all
+ * form's fields are submitted. what happens if some fields are missing, etc.
+ *The logic of our search will be in the readme
+ */
 public interface GameRepository extends JpaRepository<Game, Long> {
+
+    //
     @Query("SELECT g FROM Game g WHERE LOWER(g.title) LIKE %:title% AND LOWER(g.genre) = LOWER(:genre) " +
             "AND (g.singleplayer = :singleplayer OR g.multiplayer = :multiplayer)")
     List<Game> findByTitleGenreAndSingleplayerOrMultiplayer(

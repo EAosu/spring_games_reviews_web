@@ -1,6 +1,5 @@
 package hac.repo;
 
-import hac.repo.Review;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -14,6 +13,7 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //Cascading to remove the game's reviews will be invoked once this game object is deleted by the admin
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 

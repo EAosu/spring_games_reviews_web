@@ -72,7 +72,7 @@
                                         <p class="card-text" th:if="${game.averageScore != null}"><strong>Average Score:</strong> <span th:text="${game.averageScore}"></span></p>
                                         <p class="card-text" th:if="${game.averageScore == null}">No reviews yet</p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <form th:action="@{/reviews/user/add-review}" class="d-inline">
+                                            <form th:action="@{/reviews/user/addreview}" class="d-inline">
                                                 <input type="hidden" name="gameId" th:value="${game.id}">
                                                 <button type="submit" class="btn btn-outline-success">Add Review</button>
                                             </form>

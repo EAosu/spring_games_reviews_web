@@ -12,7 +12,7 @@
 
 <div class="error-container">
   <h1>Validation Errors</h1>
-  <ul>
+  <ul class="text-center">
     <th:block th:if="${errors}">
       <th:block th:each="error : ${errors}">
         <li th:text="${error.defaultMessage}"></li>

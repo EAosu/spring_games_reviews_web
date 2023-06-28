@@ -17,6 +17,11 @@ public class HomeController {
         this.gameController = gameController;
     }
 
+    /**
+     * Returns the homepage with all reviews in descending order. and the top 10 games by their avg score
+     * @param model  to add attribs
+     * @return the homepage
+     */
     @GetMapping("/")
     public String getHomePage(Model model) {
         List<Game> topGames = gameController.getGameRepo().findTop10GamesOrderByAverageReviewScore();
